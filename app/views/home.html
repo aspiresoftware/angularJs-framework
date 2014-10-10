@@ -1,0 +1,15 @@
+<div ng-include="'views/common/header.html'"></div>
+<div class="jumbotron" ng-controller="LoginCtrl">
+  <div class="table-responsive">
+    <table class="table">
+      <tr class="text-center">
+        <th>Name</th><th>Description</th>
+      </tr>
+      <tr ng-repeat="product in productList">
+        <td>{{product.name}}</td>
+        <td>{{product.description}}</td>
+    </tr>
+    </table>
+  </div>
+</div>
+<div ng-include="'views/common/footer.html'"></div>

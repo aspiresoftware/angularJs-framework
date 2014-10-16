@@ -2,17 +2,26 @@
 
 var userServices = angular.module('userServices', ['delegatorServices']);
 
-userServices.factory('Login', function($http, Remote) {
+userServices.factory('LoginService', function($http, $filter, Remote, Session) {
     return {
-	  	    login: function(url) { 
+	  	    login: function(url, loginDetails) { 
                 console.log('Login service...'); 
-                var promise = Remote.get(url); 
+                var promise = Remote.post(url, $filter('json')(loginDetails)); 
 		  	    return promise;
 		  	},
             logout: function(url){
                 console.log('Logout service...'); 
                 var promise = Remote.delete(url); 
                 return promise;
-            } 
+            },
+            isAuthenticated: function () {
+                return !!Session.userId;
+            },
+            isAuthorized: function (authorizedRoles) {
+                if (!angular.isArray(authorizedRoles)) {
+                    authorizedRoles = [authorizedRoles];
+                }
+                return (this.isAuthenticated() && authorizedRoles.indexOf(Session.userRole) !== -1);
+            }
 	}
 });

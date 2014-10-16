@@ -1,95 +1,98 @@
 'use strict';
 
-var delegatorServices = angular.module('delegatorServices', ['Utils']);
+var delegatorServices = angular.module('delegatorServices', ['Utils','Constants']);
 
-delegatorServices.factory('Remote', function($http, Auth, Utility) {
+delegatorServices.factory('Remote', function($http, $rootScope, Auth, Utility, APPLICATION) {
 	return {
 		setCredentials: function(){
-			//TODO : need to replace username and password
-	  		//Auth.setCredentials('username','Password');
+	  		Auth.setCredentials($rootScope.username, $rootScope.password);
 	  	},
-	  	processResult: function(callback,data){
-	  		console.log('Process result...'); 
-	  		if(!Utility.isUndefinedOrNull(callback)){
-		  		callback(data);
-		  	}	
-	  	},
-		get: function(url, successCallback, failureCallback) {
-			console.log('Delegator GET :' + url);
-			var me = this;
-			me.setCredentials();
+	  	get: function(url) {
+			console.log('Delegator GET :' + APPLICATION.host + url);
+			var _this = this;
+			_this.setCredentials();
 		  		
-		    // comment below code to check with device id
-		  	var promise = $http.get(url)
+		    // com_thisnt below code to check with device id
+		  	var promise = $http.get(APPLICATION.host + url, {withCredentials: true,  headers: {'Content-Type': 'application/json'} })
 		  	.success(function (data, status) {
 		  		console.log('Success from server'); 
-		  		me.processResult(successCallback, data);
-		  		return data; //this success data will be used in then method of controller call 
+		 		return data; //this success data will be used in then _thisthod of controller call 
 			})
 			.error(function (data, status) {
 				console.log('Error from server'); 
-				me.processResult(failureCallback, data);
-				return null; //this failure data will be used in then method of controller call
+				return null; //this failure data will be used in then _thisthod of controller call
 			});
 			
 		  	return promise; //return promise object to controller  
 	  	},
-	  	post: function(url, jsondata, successCallback, failureCallback) {
-	  		console.log('Delegator POST :' + url + jsondata);
-	  		var me = this; 
-			me.setCredentials();
+	  	post: function(url, jsondata) {
+	  		console.log('Delegator POST :' + APPLICATION.host + url +" -> JSON DATA : "+ jsondata);
+	  		var _this = this; 
+			_this.setCredentials();
 	    			
-	  		var promise = $http.post( url, jsondata, { headers: {'Content-Type': 'application/json'} })
+	  		var promise = $http.post(APPLICATION.host + url, jsondata, {withCredentials: true,  headers: {'Content-Type': 'application/json'} })
 	  		.success(function (data, status) {
 	  			console.log('Success from server'); 
-	  			me.processResult(successCallback, data);
 	  			return data;
 			})
 			.error(function (data, status) {
 				console.log('Error from server'); 
-				me.processResult(failureCallback, data);
 				return null;
 			});
 			
 			return promise;
 	  	},
-	  	put: function(url, jsondata, successCallback, failureCallback) {
-	  		console.log('Delegator PUT :' + url + jsondata); 
-	  		var me = this;
-			me.setCredentials();
+	  	put: function(url, jsondata) {
+	  		console.log('Delegator PUT :' + APPLICATION.host + url +" -> JSON DATA : "+ jsondata);
+	  		var _this = this;
+			_this.setCredentials();
 
-	  		var promise = $http.put( url, jsondata, { headers: {'Content-Type': 'application/json'} })
+	  		var promise = $http.put( APPLICATION.host + url, jsondata, {withCredentials: true, headers: {'Content-Type': 'application/json'} })
 	  		.success(function (data, status) {
 	  			console.log('Success from server'); 
-	  			me.processResult(successCallback, data);
 	  			return data;
 			})
 			.error(function (data, status) {
 				console.log('Error from server'); 
-				me.processResult(failureCallback, data);
 				return null;
 			});
 			
 			return promise;
 	  	},
-	  	delete: function(url, successCallback, failureCallback) {
-	  		console.log('Delegator DELETE :' + url + jsondata); 
-	  		var me = this;
-	  		me.setCredentials();		  			    
-		    // comment below code 
-		  	var promise = $http.delete(url)
+	  	delete: function(url, jsondata) {
+	  		console.log('Delegator DELETE :' + APPLICATION.host + url );
+	  		var _this = this;
+	  		_this.setCredentials();		  			    
+		    // com_thisnt below code 
+		  	var promise = $http.delete(APPLICATION.host + url, jsondata,  {withCredentials: true, headers: {'Content-Type': 'application/json'} })
 		  	.success(function (data, status) {
 		  		console.log('Success from server'); 
-		  		me.processResult(successCallback, data);
-		  		return data; //this success data will be used in then method of controller call 
+		  		return data; //this success data will be used in then _thisthod of controller call 
 			})
 			.error(function (data, status) {
 				console.log('Error from server'); 
-				me.processResult(failureCallback, data);
-				return null; //this failure data will be used in then method of controller call
+				return null; //this failure data will be used in then _thisthod of controller call
 			});
 			
 		  	return promise; //return promise object to controller  
 	  	}
 	};
 });
+/*
+$provide.factory('HttpInterceptor', function($q, $rootScope) {
+    return function(promise) {
+        return promise.then(function(response) {
+            $rootScope.error="";
+            $rootScope.message="test msg";
+        }, function(response) {
+            $rootScope.error="test err";
+            $rootScope.message="";
+            if (canRecover(response)) {
+                return responseOrNewPromise; // This can suppress the error.
+            }
+            return $q.reject(response); // This propogates it.
+        });
+    }
+});
+
+$httpProvider.interceptors.push('HttpInterceptor');*/

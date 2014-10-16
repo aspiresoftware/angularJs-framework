@@ -1,14 +1,19 @@
-<div class="jumbotron">
+<div class="jumbotron"  ng-controller="LoginCtrl">
+  <div ng-include src="'/views/alert.html'"></div>
+  <form name="loginForm" ng-controller="LoginCtrl">
+    <span class="error" ng-show="loginForm.username.$error.required">Username required!</span>
   <div class="input-group">
     <span class="input-group-addon">Username</span>
-    <input type="text" class="form-control" ng-model="loginDetails.username" placeholder="Username">
+    <input type="text" class="form-control" ng-model="loginDetails.username" placeholder="Username" required>
   </div>
   <br/>
+  <span class="error" ng-show="loginForm.password.$error.required">Password required!</span>
   <div class="input-group">
     <span class="input-group-addon">Password</span>
-    <input type="password" class="form-control" autocorrect="off" autocapitalize="off" ng-model="loginDetails.password" placeholder="Password">
+    <input type="password" class="form-control" autocorrect="off" autocapitalize="off" ng-model="loginDetails.password" placeholder="Password" required>
   </div>
   <br/>
    <button type="submit" class="btn btn-default" ng-click="authenticate(loginDetails)">Login</button>
+ </form>
 </div>
 

@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var app = angular.module('angularjsApp', ['ngRoute', 'loginController','productController','userServices','Constants']);
+var app = angular.module('angularjsApp', ['ngRoute', 'loginController','todoController','userServices','Constants']);
 
  // Angular supports chaining, so here we chain the config function onto
   // the module we're configuring.
@@ -20,16 +20,16 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','productC
       }).
       when('/home', {
         templateUrl: 'views/home.html',
-        controller: 'ProductCtrl',
+        controller: 'TodoCtrl',
         data: {
-            authorizedRoles: ['admin', 'user']
+            authorizedRoles: ['admin']
           }
       }).
-      when('/product/save', {
+      when('/todo/save', {
         templateUrl: 'views/addedit.html',
-        controller: 'ProductCtrl',
+        controller: 'TodoCtrl',
         data: {
-            authorizedRoles: ['admin', 'user']
+            authorizedRoles: ['admin']
           }
       }).
       otherwise({
@@ -98,14 +98,14 @@ app.controller('ApplicationController', function ($scope, $location, USER_ROLES,
 });
 
 app.service('Session', function () {
-  this.create = function (sessionId, userId, userRole) {
+  this.create = function (sessionId, userName, userRole) {
     this.id = sessionId;
-    this.userId = userId;
+    this.userName = userName;
     this.userRole = userRole;
   };
   this.destroy = function () {
     this.id = null;
-    this.userId = null;
+    this.userName = null;
     this.userRole = null;
   };
   return this;

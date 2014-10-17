@@ -1,8 +1,8 @@
 'use strict';
 
-var delegatorServices = angular.module('delegatorServices', ['Utils','Constants']);
+var delegatorServices = angular.module('delegatorServices', ['Utils','Constants','ngCookies']);
 
-delegatorServices.factory('Remote', function($http, $rootScope, Auth, Utility, APPLICATION) {
+delegatorServices.factory('Remote', function($http, $cookieStore, $rootScope, Auth, Utility, APPLICATION,Session) {
 	return {
 		setCredentials: function(){
 	  		Auth.setCredentials($rootScope.username, $rootScope.password);
@@ -13,7 +13,7 @@ delegatorServices.factory('Remote', function($http, $rootScope, Auth, Utility, A
 			_this.setCredentials();
 		  		
 		    // com_thisnt below code to check with device id
-		  	var promise = $http.get(APPLICATION.host + url, {withCredentials: true,  headers: {'Content-Type': 'application/json'} })
+		  	var promise = $http.get(APPLICATION.host + url, {withCredentials: true,  headers: {'Content-Type': 'application/json', 'X-AUTH-TOKEN': Session.id} })
 		  	.success(function (data, status) {
 		  		console.log('Success from server'); 
 		 		return data; //this success data will be used in then _thisthod of controller call 

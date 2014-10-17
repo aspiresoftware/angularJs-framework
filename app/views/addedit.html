@@ -1,17 +1,11 @@
 <div ng-include="'views/common/header.html'"></div>
-<div ng-controller="ProductCtrl">
-  <div class="page-header"><h3>Products</h3></div>
+<div ng-controller="TodoCtrl">
+  <div class="page-header"><h3>Todo Tasks</h3></div>
   <div class="input-group">
-    <span class="input-group-addon">Name</span>
-    <input type="text" class="form-control" ng-model="product.name" placeholder="Name" />
+    <span class="input-group-addon">Task</span>
+    <input type="text" class="form-control" ng-model="todo.name" placeholder="Task" />
   </div>
-  <br/>
-  <div class="input-group">
-    <span class="input-group-addon">Description</span>
-    <input type="text" class="form-control" ng-model="product.description" placeholder="Discription" />
-  </div>
-  <br/>
-   <button type="submit" class="btn btn-default" ng-click="saveProduct(product)">Save</button>
+   <button type="submit" class="btn btn-default" ng-click="saveTodo(todo)">Save</button>
    <button type="submit" class="btn btn-default" ng-controller='ApplicationController' ng-click="changeView('home')">Cancel</button>
 </div>
 <div ng-include="'views/common/footer.html'"></div>

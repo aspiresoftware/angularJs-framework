@@ -16,7 +16,7 @@ LoginCtrl.controller('LoginCtrl', function ($scope, $rootScope,$location, LoginS
         console.log('Success : Return from login service.');
 
         $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-        //Session.create(result.data.token, result.data.user.id, result.data.user.roles[0]);
+        Session.create(result.data.token, result.data.user.userName, result.data.user.details.roles[0]);
         $location.url('/home');
       },function(result){
         $rootScope.$broadcast(AUTH_EVENTS.loginFailed);

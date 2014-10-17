@@ -1,18 +1,17 @@
 <div ng-include="'views/common/header.html'"></div>
-<div ng-controller="ProductCtrl">
-  <div class="page-header"><h3>Products</h3></div>
+<div ng-controller="TodoCtrl">
+  <div class="page-header"><h3>Todo Tasks</h3></div>
   <div class="table-responsive">
     <table class="table">
       <tr class="text-center">
-        <th>Name</th><th>Description</th><th>Actions</th>
+        <th>Task</th><th>Actions</th>
       </tr>
-      <tr ng-repeat="product in products">
-        <td>{{product.name}}</td>
-        <td>{{product.description}}</td>
-        <td><a href="#/product/save" alt="edit"><i class="glyphicon glyphicon-edit" /></a>&nbsp;&nbsp;&nbsp;<a href"#" ng-click="deleteProduct(product.id)" alt="delete"><i class="glyphicon glyphicon-remove" /></a></td>
+      <tr ng-repeat="todo in todos">
+        <td>{{todo.name}}</td>
+        <td><a href="#/todo/save" alt="edit"><i class="glyphicon glyphicon-edit" /></a>&nbsp;&nbsp;&nbsp;<a href"#" ng-click="deleteTodo(todo.id)" alt="delete"><i class="glyphicon glyphicon-remove" /></a></td>
     </tr>
     </table>
-    <div class="btn-group"><button type="button" class="btn btn-default" ng-controller='ApplicationController' ng-click="changeView('product/save')">Add product</button></div><br/><br/>
+    <div class="btn-group"><button type="button" class="btn btn-default" ng-controller='ApplicationController' ng-click="changeView('todo/save')">Add Task</button></div><br/><br/>
   </div>
 </div>
 <div ng-include="'views/common/footer.html'"></div>

@@ -4,14 +4,14 @@
 var app = angular.module('Constants', []);
 
 app.constant('APPLICATION', {
-    'host' : 'http://192.168.1.20:9000/'
+    'host' : 'http://192.168.1.13:9000/'
 });
 
 app.constant('REST_URL', {
-    'AUTHENTICATION': 'authentications',
-    'PRODUCT_LIST': 'products',
-    'SAVE_PRODUCT': 'products/save',
-    'DELETE_PRODUCT': 'products/delete',
+    'AUTHENTICATION': 'authentication',
+    'TODO_LIST': 'todos',
+    'SAVE_TODO': 'todo/save',
+    'DELETE_TODO': 'todo/delete',
 });
 
 app.constant('AUTH_EVENTS', {

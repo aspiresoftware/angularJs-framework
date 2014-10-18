@@ -7,7 +7,7 @@
         <th>Task</th><th>Actions</th>
       </tr>
       <tr ng-repeat="todo in todos">
-        <td>{{todo.name}}</td>
+        <td>{{todo.task}}</td>
         <td><a href="#/todo/save" alt="edit"><i class="glyphicon glyphicon-edit" /></a>&nbsp;&nbsp;&nbsp;<a href"#" ng-click="deleteTodo(todo.id)" alt="delete"><i class="glyphicon glyphicon-remove" /></a></td>
     </tr>
     </table>

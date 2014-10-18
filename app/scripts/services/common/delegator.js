@@ -2,18 +2,14 @@
 
 var delegatorServices = angular.module('delegatorServices', ['Utils','Constants','ngCookies']);
 
-delegatorServices.factory('Remote', function($http, $cookieStore, $rootScope, Auth, Utility, APPLICATION,Session) {
+delegatorServices.factory('Remote', function($http, $cookies, $rootScope, Auth, Utility, APPLICATION,Session) {
 	return {
-		setCredentials: function(){
-	  		Auth.setCredentials($rootScope.username, $rootScope.password);
-	  	},
 	  	get: function(url) {
 			console.log('Delegator GET :' + APPLICATION.host + url);
-			var _this = this;
-			_this.setCredentials();
-		  		
+			$http.defaults.headers.common['X-AUTH-TOKEN'] = $cookies.authToken;
+		  
 		    // com_thisnt below code to check with device id
-		  	var promise = $http.get(APPLICATION.host + url, {withCredentials: true,  headers: {'Content-Type': 'application/json', 'X-AUTH-TOKEN': Session.id} })
+		  	var promise = $http.get(APPLICATION.host + url, {withCredentials: true})
 		  	.success(function (data, status) {
 		  		console.log('Success from server'); 
 		 		return data; //this success data will be used in then _thisthod of controller call 
@@ -27,10 +23,8 @@ delegatorServices.factory('Remote', function($http, $cookieStore, $rootScope, Au
 	  	},
 	  	post: function(url, jsondata) {
 	  		console.log('Delegator POST :' + APPLICATION.host + url +" -> JSON DATA : "+ jsondata);
-	  		var _this = this; 
-			_this.setCredentials();
-	    			
-	  		var promise = $http.post(APPLICATION.host + url, jsondata, {withCredentials: true,  headers: {'Content-Type': 'application/json'} })
+	  				
+	  		var promise = $http.post(APPLICATION.host + url, jsondata, {withCredentials: true})
 	  		.success(function (data, status) {
 	  			console.log('Success from server'); 
 	  			return data;
@@ -44,10 +38,8 @@ delegatorServices.factory('Remote', function($http, $cookieStore, $rootScope, Au
 	  	},
 	  	put: function(url, jsondata) {
 	  		console.log('Delegator PUT :' + APPLICATION.host + url +" -> JSON DATA : "+ jsondata);
-	  		var _this = this;
-			_this.setCredentials();
-
-	  		var promise = $http.put( APPLICATION.host + url, jsondata, {withCredentials: true, headers: {'Content-Type': 'application/json'} })
+	  		
+	  		var promise = $http.put( APPLICATION.host + url, jsondata, {withCredentials: true})
 	  		.success(function (data, status) {
 	  			console.log('Success from server'); 
 	  			return data;
@@ -61,10 +53,9 @@ delegatorServices.factory('Remote', function($http, $cookieStore, $rootScope, Au
 	  	},
 	  	delete: function(url, jsondata) {
 	  		console.log('Delegator DELETE :' + APPLICATION.host + url );
-	  		var _this = this;
-	  		_this.setCredentials();		  			    
+	  	
 		    // com_thisnt below code 
-		  	var promise = $http.delete(APPLICATION.host + url, jsondata,  {withCredentials: true, headers: {'Content-Type': 'application/json'} })
+		  	var promise = $http.delete(APPLICATION.host + url, jsondata,  {withCredentials: true})
 		  	.success(function (data, status) {
 		  		console.log('Success from server'); 
 		  		return data; //this success data will be used in then _thisthod of controller call 
@@ -78,21 +69,3 @@ delegatorServices.factory('Remote', function($http, $cookieStore, $rootScope, Au
 	  	}
 	};
 });
-/*
-$provide.factory('HttpInterceptor', function($q, $rootScope) {
-    return function(promise) {
-        return promise.then(function(response) {
-            $rootScope.error="";
-            $rootScope.message="test msg";
-        }, function(response) {
-            $rootScope.error="test err";
-            $rootScope.message="";
-            if (canRecover(response)) {
-                return responseOrNewPromise; // This can suppress the error.
-            }
-            return $q.reject(response); // This propogates it.
-        });
-    }
-});
-
-$httpProvider.interceptors.push('HttpInterceptor');*/

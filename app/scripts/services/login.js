@@ -2,7 +2,7 @@
 
 var userServices = angular.module('userServices', ['delegatorServices']);
 
-userServices.factory('LoginService', function($http, $filter, Remote, Session) {
+userServices.factory('AuthService', function($http, $filter, Remote, Session) {
     return {
 	  	    login: function(url, loginDetails) { 
                 console.log('Login service...'); 

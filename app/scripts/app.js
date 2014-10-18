@@ -39,17 +39,19 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','todoCont
 
 app.config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.useXDomain = true;
+        $httpProvider.defaults.headers.common['Accept'] = 'application/json';
+        $httpProvider.defaults.headers.common['Content-Type'] = 'application/json; charset=utf-8';
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     }
 ]);
 
 
-app.run(function ($rootScope, AUTH_EVENTS, LoginService) {
+app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService) {
   $rootScope.$on('$stateChangeStart', function (event, next) {
     var authorizedRoles = next.data.authorizedRoles;
-    if (!LoginService.isAuthorized(authorizedRoles)) {
+    if (!AuthService.isAuthorized(authorizedRoles)) {
       event.preventDefault();
-      if (LoginService.isAuthenticated()) {
+      if (AuthService.isAuthenticated()) {
         // user is not allowed
         $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
       } else {
@@ -58,6 +60,12 @@ app.run(function ($rootScope, AUTH_EVENTS, LoginService) {
       }
     }
   });
+
+  //hendled notAuthenticated event
+  $rootScope.$on(AUTH_EVENTS.notAuthenticated, function (event, next) {
+    $location.url('/');
+  });    
+  
 });
 
 app.config(function ($httpProvider) {
@@ -83,10 +91,10 @@ app.factory('AuthInterceptor', function ($rootScope, $q, AUTH_EVENTS) {
   };
 })
 
-app.controller('ApplicationController', function ($scope, $location, USER_ROLES, LoginService) {
+app.controller('ApplicationController', function ($scope, $location, USER_ROLES, AuthService) {
   $scope.currentUser = null;
   $scope.userRoles = USER_ROLES;
-  $scope.isAuthorized = LoginService.isAuthorized;
+  $scope.isAuthorized = AuthService.isAuthorized;
  
   $scope.setCurrentUser = function (user) {
     $scope.currentUser = user;
@@ -98,15 +106,18 @@ app.controller('ApplicationController', function ($scope, $location, USER_ROLES,
 });
 
 app.service('Session', function () {
+  var id = null;
+  var userName = null;
+  var userRole = null;
   this.create = function (sessionId, userName, userRole) {
-    this.id = sessionId;
-    this.userName = userName;
-    this.userRole = userRole;
+    id = sessionId;
+    userName = userName;
+    userRole = userRole;
   };
   this.destroy = function () {
-    this.id = null;
-    this.userName = null;
-    this.userRole = null;
+    id = null;
+    userName = null;
+    userRole = null;
   };
   return this;
 });

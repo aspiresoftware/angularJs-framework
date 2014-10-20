@@ -1,15 +1,20 @@
 'use strict';
 
-var delegatorServices = angular.module('delegatorServices', ['Utils','Constants','ngCookies']);
+var delegatorServices = angular.module('delegatorServices', ['Utils','Constants']);
 
-delegatorServices.factory('Remote', function($http, $cookies, $rootScope, Auth, Utility, APPLICATION,Session) {
+delegatorServices.factory('Remote', function($http, APPLICATION, Session) {
 	return {
+		setHeader: function(){
+			if(Session.getValue(APPLICATION.authToken) != null){
+				$http.defaults.headers.common['X-AUTH-TOKEN'] = Session.getValue(APPLICATION.authToken);
+			}
+		},
 	  	get: function(url) {
 			console.log('Delegator GET :' + APPLICATION.host + url);
-			$http.defaults.headers.common['X-AUTH-TOKEN'] = $cookies.authToken;
-		  
+			this.setHeader();
+			
 		    // com_thisnt below code to check with device id
-		  	var promise = $http.get(APPLICATION.host + url, {withCredentials: true})
+		  	var promise = $http.get(APPLICATION.host + url, {withCredentials: true} )
 		  	.success(function (data, status) {
 		  		console.log('Success from server'); 
 		 		return data; //this success data will be used in then _thisthod of controller call 
@@ -23,7 +28,9 @@ delegatorServices.factory('Remote', function($http, $cookies, $rootScope, Auth, 
 	  	},
 	  	post: function(url, jsondata) {
 	  		console.log('Delegator POST :' + APPLICATION.host + url +" -> JSON DATA : "+ jsondata);
-	  				
+			this.setHeader();
+			
+
 	  		var promise = $http.post(APPLICATION.host + url, jsondata, {withCredentials: true})
 	  		.success(function (data, status) {
 	  			console.log('Success from server'); 
@@ -38,7 +45,8 @@ delegatorServices.factory('Remote', function($http, $cookies, $rootScope, Auth, 
 	  	},
 	  	put: function(url, jsondata) {
 	  		console.log('Delegator PUT :' + APPLICATION.host + url +" -> JSON DATA : "+ jsondata);
-	  		
+	  		this.setHeader();
+
 	  		var promise = $http.put( APPLICATION.host + url, jsondata, {withCredentials: true})
 	  		.success(function (data, status) {
 	  			console.log('Success from server'); 
@@ -53,7 +61,8 @@ delegatorServices.factory('Remote', function($http, $cookies, $rootScope, Auth, 
 	  	},
 	  	delete: function(url, jsondata) {
 	  		console.log('Delegator DELETE :' + APPLICATION.host + url );
-	  	
+	  		this.setHeader();
+
 		    // com_thisnt below code 
 		  	var promise = $http.delete(APPLICATION.host + url, jsondata,  {withCredentials: true})
 		  	.success(function (data, status) {

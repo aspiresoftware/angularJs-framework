@@ -3,8 +3,8 @@
   // Here we attach this controller to our testApp module
 var TodoCtrl = angular.module('todoController',['todoService','Constants'])
   
-TodoCtrl.controller('TodoCtrl', function ($scope, $rootScope, $location, TodoService, REST_URL) {
-  
+TodoCtrl.controller('TodoCtrl', function ($scope, $rootScope, $location, TodoService, REST_URL, PAGE_URL, APPLICATION, Session) {
+  $scope.username = Session.getValue(APPLICATION.username);
   $scope.getTodos = function(){
     console.log('TodoCtrl : getTodos');
 
@@ -22,7 +22,7 @@ TodoCtrl.controller('TodoCtrl', function ($scope, $rootScope, $location, TodoSer
 
     TodoService.save(REST_URL.SAVE_TODO, angular.toJson('{"todo": {"name": "'+todo.name+'"}}')).then(function(result){
       console.log('Success : Return from todo save service.');
-      $location.url('/home');
+      $location.url(PAGE_URL.HOME);
     },function(result){
       console.log('Error : Return from todo save service.');
     }); 
@@ -33,7 +33,7 @@ TodoCtrl.controller('TodoCtrl', function ($scope, $rootScope, $location, TodoSer
     
     TodoService.delete(REST_URL.DELETE_TODO, todoId).then(function(result){
       console.log('Success : Return from todo delete service.');
-      $location.url('/home');
+      $location.url(PAGE_URL.HOME);
     },function(result){
       console.log('Error : Return from todo delete service.');
     }); 

@@ -1,5 +1,6 @@
 <div ng-include="'views/common/header.html'"></div>
 <div ng-controller="TodoCtrl">
+  <div class="page-header"><h3>Welcome {{username}} !!!</h3></div>
   <div class="page-header"><h3>Todo Tasks</h3></div>
   <div class="table-responsive">
     <table class="table">
@@ -8,10 +9,10 @@
       </tr>
       <tr ng-repeat="todo in todos">
         <td>{{todo.task}}</td>
-        <td><a href="#/todo/save" alt="edit"><i class="glyphicon glyphicon-edit" /></a>&nbsp;&nbsp;&nbsp;<a href"#" ng-click="deleteTodo(todo.id)" alt="delete"><i class="glyphicon glyphicon-remove" /></a></td>
+        <td><a href="#" alt="edit"><i class="glyphicon glyphicon-edit" /></a>&nbsp;&nbsp;&nbsp;<a href"#" alt="delete"><i class="glyphicon glyphicon-remove" /></a></td>
     </tr>
     </table>
-    <div class="btn-group"><button type="button" class="btn btn-default" ng-controller='ApplicationController' ng-click="changeView('todo/save')">Add Task</button></div><br/><br/>
+    <div class="btn-group"><button type="button" class="btn btn-default" ng-controller='ApplicationController' ng-click="#">Add Task</button></div><br/><br/>
   </div>
 </div>
 <div ng-include="'views/common/footer.html'"></div>

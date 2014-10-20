@@ -4,7 +4,11 @@
 var app = angular.module('Constants', []);
 
 app.constant('APPLICATION', {
-    'host' : 'http://192.168.1.13:9000/'
+    'host' : 'http://192.168.1.13:9000/',
+    'sessionName': 'ang_session',
+    'authToken': 'token',
+    'username' : 'username',
+    'role' : 'role'
 });
 
 app.constant('REST_URL', {
@@ -12,6 +16,11 @@ app.constant('REST_URL', {
     'TODO_LIST': 'todos',
     'SAVE_TODO': 'todo/save',
     'DELETE_TODO': 'todo/delete',
+});
+
+app.constant('PAGE_URL', {
+    'ROOT': '/',
+    'HOME': '/home',
 });
 
 app.constant('AUTH_EVENTS', {

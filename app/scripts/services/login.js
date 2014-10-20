@@ -15,13 +15,13 @@ userServices.factory('AuthService', function($http, $filter, Remote, Session) {
                 return promise;
             },
             isAuthenticated: function () {
-                return !!Session.userId;
+                return !!Session.getValue(APPLICATION.authToken);
             },
             isAuthorized: function (authorizedRoles) {
                 if (!angular.isArray(authorizedRoles)) {
                     authorizedRoles = [authorizedRoles];
                 }
-                return (this.isAuthenticated() && authorizedRoles.indexOf(Session.userRole) !== -1);
+                return (this.isAuthenticated() && authorizedRoles.indexOf(Session.getValue(APPLICATION.role)) !== -1);
             }
 	}
 });

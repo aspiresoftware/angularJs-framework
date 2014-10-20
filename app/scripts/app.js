@@ -16,7 +16,7 @@ var app = angular.module('angularjsApp', ['ngRoute', 'loginController','todoCont
     $routeProvider.
       when('/', {
         templateUrl: 'views/login.html',
-        controller: 'LoginCtrl',
+        controller: 'LoginCtrl'
       }).
       when('/home', {
         templateUrl: 'views/home.html',
@@ -46,7 +46,8 @@ app.config(['$httpProvider', function($httpProvider) {
 ]);
 
 
-app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService) {
+app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService, Session, APPLICATION,PAGE_URL) {
+  
   $rootScope.$on('$stateChangeStart', function (event, next) {
     var authorizedRoles = next.data.authorizedRoles;
     if (!AuthService.isAuthorized(authorizedRoles)) {
@@ -63,9 +64,15 @@ app.run(function ($rootScope, $location, AUTH_EVENTS, AuthService) {
 
   //hendled notAuthenticated event
   $rootScope.$on(AUTH_EVENTS.notAuthenticated, function (event, next) {
-    $location.url('/');
-  });    
-  
+    $location.url(PAGE_URL.ROOT);
+  });
+  $rootScope.$on(AUTH_EVENTS.sessionTimeout, function (event, next) {
+    $location.url(PAGE_URL.ROOT);
+  });  
+
+  if(Session.getValue(APPLICATION.authToken) != null){
+    $location.url(PAGE_URL.HOME);
+  }
 });
 
 app.config(function ($httpProvider) {
@@ -105,20 +112,45 @@ app.controller('ApplicationController', function ($scope, $location, USER_ROLES,
   };
 });
 
-app.service('Session', function () {
-  var id = null;
-  var userName = null;
-  var userRole = null;
-  this.create = function (sessionId, userName, userRole) {
-    id = sessionId;
-    userName = userName;
-    userRole = userRole;
+app.factory('Session', function(APPLICATION) {
+  
+
+  var Session = {
+    create: function(sessionId, userName, userRole){
+      var data = {};
+      data[APPLICATION.authToken] = sessionId;
+      data[APPLICATION.username] = userName;
+      data[APPLICATION.role] = userRole;
+      window.localStorage.setItem('ang_session', JSON.stringify(data));
+    },
+    setValue: function(key, value) { 
+      var data = {};
+      try {
+        data =  JSON.parse(window.localStorage.getItem(APPLICATION.sessionName));
+      } catch (e) {
+        console.log('Error to get session data from local storage');
+        return null;
+      }
+      data[key] = value;
+      window.localStorage.setItem('ang_session', JSON.stringify(data)); 
+    },
+    getValue: function(key) { 
+      var data = {};
+      try {
+        data =  JSON.parse(window.localStorage.getItem(APPLICATION.sessionName));
+        return data[key];
+      } catch (e) {
+        console.log('Error to get session data from local storage');
+        return null;
+      }
+      
+    },
+    remove: function(){
+      var data = {};
+      window.localStorage.setItem(APPLICATION.sessionName, JSON.stringify(data));
+    }
   };
-  this.destroy = function () {
-    id = null;
-    userName = null;
-    userRole = null;
-  };
-  return this;
+  
+  return Session; 
 });
 

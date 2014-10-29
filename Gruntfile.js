@@ -15,11 +15,14 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
     dist: 'dist'
   };
+
+  grunt.loadNpmTasks('grunt-war');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -384,7 +387,35 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
-    }
+    },
+
+     /*
+       * Build a WAR (web archive) without Maven or the JVM installed.
+       */
+      war: {
+        target: {
+          options: {
+            war_dist_folder: '<%= yeoman.dist %>',
+            war_verbose: true,
+            war_name: 'finemsys',
+            webxml_welcome: 'index.html',
+            webxml_display_name: 'finemsys',
+            webxml_mime_mapping: [ 
+        { 
+            extension: 'woff', 
+              mime_type: 'application/font-woff' 
+        } ]
+          },
+          files: [
+            {
+              expand: true,
+              cwd: '<%= yeoman.dist %>',
+              src: ['**'],
+              dest: '<%= yeoman.app %>/../'
+            }
+          ]
+        }
+      }
   });
 
 

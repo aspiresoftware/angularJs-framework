@@ -4,7 +4,7 @@
 var app = angular.module('Constants', []);
 
 app.constant('APPLICATION', {
-    'host' : 'http://192.168.1.13:9000/',
+    'host' : 'http://finemsys.elasticbeanstalk.com/',
     'sessionName': 'ang_session',
     'authToken': 'token',
     'username' : 'username',

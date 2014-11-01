@@ -1,18 +1,55 @@
 <div ng-include="'views/common/header.html'"></div>
-<div ng-controller="TodoCtrl">
-  <div class="page-header"><h3>Welcome {{username}} !!!</h3></div>
-  <div class="page-header"><h3>Todo Tasks</h3></div>
-  <div class="table-responsive">
-    <table class="table">
-      <tr class="text-center">
-        <th>Task</th><th>Actions</th>
-      </tr>
-      <tr ng-repeat="todo in todos">
-        <td>{{todo.task}}</td>
-        <td><a href="#" alt="edit"><i class="glyphicon glyphicon-edit" /></a>&nbsp;&nbsp;&nbsp;<a href="#" alt="delete"><i class="glyphicon glyphicon-remove" /></a></td>
-    </tr>
-    </table>
-    <div class="btn-group"><button type="button" class="btn btn-default" ng-controller='ApplicationController' ng-click="#">Add Task</button></div><br/><br/>
+<div class="container post-login">
+  
+  <div class="shortcuts">
+    <ul role="tablist">
+      <li role="presentation" class="label">Shortcuts:</li>
+      <li role="presentation"><a href="#">New Client</a></li>
+      <li role="presentation"><a href="#">New Loan</a></li>
+      <li role="presentation"><a href="#">New Repayment</a></li>
+      <li role="presentation"><a href="#">New Note</a></li>
+      <li role="presentation"><a href="#">New Survey</a></li>
+      <li role="presentation"><a href="#">Upload Documents</a></li>
+    </ul>
   </div>
-</div>
-<div ng-include="'views/common/footer.html'"></div>
+
+  <div class="summary">
+    <dl class="horizontal">
+      <dt>631</dt>
+      <dd><a href="#">Total Active Clients</a></dd>
+      <dt>629</dt>
+      <dd><a href="#">Total Borrowers</a></dd>
+      <dt>302</dt>
+      <dd><a href="#">Loans in Band Standing</a></dd>
+      <dt>147</dt>
+      <dd><a href="#">Repayments Due This Week</a></dd>
+    </dl>
+    <div class="clearfix"></div>
+  </div>
+  
+  <div class="kpis">
+    <div class="charts">
+      <div class="portlet">
+        <div class="heading">Active Borrowers per Loan Officer</div> 
+        <div class="body">Please integrate highchart graph</div>
+      </div>
+    </div>
+    <div class="charts">
+      <div class="portlet">
+        <div class="heading">PAR per Loan Officer</div> 
+        <div class="body">Please integrate highchart graph</div>
+      </div>
+    </div>
+    <div class="charts">
+      <div class="portlet">
+        <div class="heading">Changes in Loan Portfolio current month</div> 
+        <div class="body">Please integrate highchart graph</div>
+      </div>
+    </div>
+    <div class="charts">
+      <div class="portlet">
+        <div class="heading">Due vs. Collected previous week</div> 
+        <div class="body">Please integrate highchart graph</div>
+      </div>
+    </div>
+  </div>

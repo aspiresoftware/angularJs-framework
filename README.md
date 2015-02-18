@@ -1,4 +1,4 @@
-FINTECH-UI
-==========
+Aspire Code Sample
+==================
 
-FINTECH-UI
+AngularJs

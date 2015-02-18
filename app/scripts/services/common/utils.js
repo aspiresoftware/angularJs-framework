@@ -1,11 +1,12 @@
+(function() {
 'use strict';
-
-var utils = angular.module('Utils', []);
+ 
+angular.module('angularjsApp')
 
 /** 
  * Authentication 
  */
-utils.factory('Auth', function (Base64, $http) {
+.factory('Auth', function (Base64, $http) {
     // initialize to whatever is in the cookie, if anything
     return {
         setCredentials: function (username, password) {
@@ -14,11 +15,11 @@ utils.factory('Auth', function (Base64, $http) {
         }
     };
 });
-
+angular.module('angularjsApp')
 /** 
  * General utility
  */
-utils.factory('Utility', function () {
+.factory('Utility', function () {
     // initialize to whatever is in the cookie, if anything
     return {
         isUndefinedOrNull: function(obj) {
@@ -26,11 +27,11 @@ utils.factory('Utility', function () {
         }
     };
 });
-
+angular.module('angularjsApp')
 /** 
  * Authentication header creation base64 Algorithm
  */
-utils.factory('Base64', function() {
+.factory('Base64', function() {
     var keyStr = 'ABCDEFGHIJKLMNOP' +
         'QRSTUVWXYZabcdef' +
         'ghijklmnopqrstuv' +
@@ -114,3 +115,4 @@ utils.factory('Base64', function() {
         }
     };
 });
+})();

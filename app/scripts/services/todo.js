@@ -1,23 +1,33 @@
+(function() {
 'use strict';
-
-var todoService = angular.module('todoService', ['delegatorServices']);
-
-todoService.factory('TodoService', function($http, Remote) {
-    return {
-	  	    list: function(url) { 
-                console.log('todo List service...'); 
+ 
+angular.module('angularjsApp')
+    .factory('TodoService', function(
+        $http, 
+        $log,
+        Remote) {
+            return {
+    	  	    list: list,
+                save: save,
+                delete: deletetodo
+            };
+        
+            function list(url) { 
+                $log.info('todo List service...'); 
                 var promise = Remote.get(url); 
-		  	    return promise;
-		  	},
-            save: function(url, todo){
-                console.log('todo save service...'); 
+                return promise;
+            }
+            
+            function save(url, todo){
+                $log.info('todo save service...'); 
                 var promise = Remote.post(url, todo); 
                 return promise;
-            },
-            delete: function(url,todoId){
-                console.log('todo delete service...'); 
+            }
+            
+            function deletetodo(url,todoId){
+                $log.info('todo delete service...'); 
                 var promise = Remote.delete(url +"/" + todoId); 
                 return promise;
-            } 
-	}
+            }  
 });
+})();

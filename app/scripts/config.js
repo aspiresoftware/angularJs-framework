@@ -1,40 +1,40 @@
+(function() {
 'use strict';
+ angular.module('angularjsApp')
 
+    .constant('APPLICATION', {
+        'host' : 'HOST',
+        'sessionName': 'ang_session',
+        'authToken': 'token',
+        'username' : 'username',
+        'role' : 'role'
+    })
 
-var app = angular.module('Constants', []);
+    .constant('REST_URL', {
+        'AUTHENTICATION': 'authentication',
+        'TODO_LIST': 'todos',
+        'SAVE_TODO': 'todo/save',
+        'DELETE_TODO': 'todo/delete',
+    })
 
-app.constant('APPLICATION', {
-    'host' : 'http://finemsys.elasticbeanstalk.com/',
-    'sessionName': 'ang_session',
-    'authToken': 'token',
-    'username' : 'username',
-    'role' : 'role'
-});
+    .constant('PAGE_URL', {
+        'ROOT': '/',
+        'HOME': '/home',
+    })
 
-app.constant('REST_URL', {
-    'AUTHENTICATION': 'authentication',
-    'TODO_LIST': 'todos',
-    'SAVE_TODO': 'todo/save',
-    'DELETE_TODO': 'todo/delete',
-});
+    .constant('AUTH_EVENTS', {
+      loginSuccess: 'auth-login-success',
+      loginFailed: 'auth-login-failed',
+      logoutSuccess: 'auth-logout-success',
+      sessionTimeout: 'auth-session-timeout',
+      notAuthenticated: 'auth-not-authenticated',
+      notAuthorized: 'auth-not-authorized'
+    })
 
-app.constant('PAGE_URL', {
-    'ROOT': '/',
-    'HOME': '/home',
-});
-
-app.constant('AUTH_EVENTS', {
-  loginSuccess: 'auth-login-success',
-  loginFailed: 'auth-login-failed',
-  logoutSuccess: 'auth-logout-success',
-  sessionTimeout: 'auth-session-timeout',
-  notAuthenticated: 'auth-not-authenticated',
-  notAuthorized: 'auth-not-authorized'
-});
-
-app.constant('USER_ROLES', {
-  all: '*',
-  admin: 'admin',
-  user: 'user',
-  guest: 'guest'
-});
+    .constant('USER_ROLES', {
+      all: '*',
+      admin: 'admin',
+      user: 'user',
+      guest: 'guest'
+    });
+})();

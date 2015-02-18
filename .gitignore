@@ -1,0 +1,22 @@
+###########
+# Globals
+###########
+
+# Temporary files
+/.sass-cache
+/.tmp
+/bower_components
+/node_modules
+
+# Build artifacts
+/build
+/dist
+/platforms
+/plugins
+/tmp
+/www
+
+#####################
+# Platform-specific
+#####################
+

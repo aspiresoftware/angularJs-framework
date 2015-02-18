@@ -399,9 +399,9 @@ module.exports = function (grunt) {
           options: {
             war_dist_folder: '<%= yeoman.dist %>',
             war_verbose: true,
-            war_name: 'finemsys',
+            war_name: 'aspire',
             webxml_welcome: 'index.html',
-            webxml_display_name: 'finemsys',
+            webxml_display_name: 'aspire',
             webxml_mime_mapping: [ 
         { 
             extension: 'woff', 

@@ -1,44 +1,62 @@
+(function() {
 'use strict';
  
+angular.module('angularjsApp')
+ 
   // Here we attach this controller to our testApp module
-var TodoCtrl = angular.module('todoController',['todoService','Constants'])
+
+  /* @ngInject */
+  .controller('TodoCtrl', function (
+    $scope, 
+    $rootScope, 
+    $location,
+    $log, 
+    TodoService, 
+    REST_URL, 
+    PAGE_URL, 
+    APPLICATION, 
+    Session) {
   
-TodoCtrl.controller('TodoCtrl', function ($scope, $rootScope, $location, TodoService, REST_URL, PAGE_URL, APPLICATION, Session) {
-  $scope.username = Session.getValue(APPLICATION.username);
-  $scope.getTodos = function(){
-    console.log('TodoCtrl : getTodos');
+    $scope.username = Session.getValue(APPLICATION.username);
+    $scope.getTodos = getTodos;
+    $scope.saveTodo = saveTodo;
+    $scope.deleteTodo = deleteTodo;
 
-    TodoService.list(REST_URL.TODO_LIST).then(function(result){
-      console.log('Success : Return from todo list service.');
-      $scope.todos = result.data.todos;
-      $rootScope.todos = $scope.todos;
-    },function(result){
-      console.log('Error : Return from todo list service.');
-    }); 
-  };
+    function getTodos(){
+      $log.info('TodoCtrl : getTodos');
 
-  $scope.saveTodo = function(todo){
-    console.log('TodoCtrl : saveTodo');
+      TodoService.list(REST_URL.TODO_LIST).then(function(result){
+        $log.info('Success : Return from todo list service.');
+        $scope.todos = result.data.todos;
+        $rootScope.todos = $scope.todos;
+      },function(result){
+        $log.error('Error : Return from todo list service.');
+      }); 
+    }
 
-    TodoService.save(REST_URL.SAVE_TODO, angular.toJson('{"todo": {"name": "'+todo.name+'"}}')).then(function(result){
-      console.log('Success : Return from todo save service.');
-      $location.url(PAGE_URL.HOME);
-    },function(result){
-      console.log('Error : Return from todo save service.');
-    }); 
-  };
+    function saveTodo(todo){
+      $log.info('TodoCtrl : saveTodo');
 
-  $scope.deleteTodo = function(todoId){
-    console.log('TodoCtrl : deleteTodo');
-    
-    TodoService.delete(REST_URL.DELETE_TODO, todoId).then(function(result){
-      console.log('Success : Return from todo delete service.');
-      $location.url(PAGE_URL.HOME);
-    },function(result){
-      console.log('Error : Return from todo delete service.');
-    }); 
-  };
+      TodoService.save(REST_URL.SAVE_TODO, angular.toJson('{"todo": {"name": "'+todo.name+'"}}')).then(function(result){
+        $log.info('Success : Return from todo save service.');
+        $location.url(PAGE_URL.HOME);
+      },function(result){
+        $log.error('Error : Return from todo save service.');
+      }); 
+    }
 
-  $scope.getTodos();
+    function deleteTodo(todoId){
+      $log.info('TodoCtrl : deleteTodo');
+      
+      TodoService.delete(REST_URL.DELETE_TODO, todoId).then(function(result){
+        $log.info('Success : Return from todo delete service.');
+        $location.url(PAGE_URL.HOME);
+      },function(result){
+        $log.error('Error : Return from todo delete service.');
+      }); 
+    }
+
+    $scope.getTodos();
 
 });
+})();
